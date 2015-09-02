@@ -2,7 +2,8 @@ Blockhash contract
 ==================
 This contract provides a reliable mapping from block number to the corresponding blockhash, even for historical blocks aged more than 256 blocks ago.
 
-This is a workaround for a limitation of the `block.blockhash` instruction, namely that it only supports the 256 most recent blocks. This limitation affects Etherpot, among others. See: https://disqus.com/home/discussion/aakilfernandes/blockhashes_are_only_good_for_256_blocks
+This is a workaround for a limitation of the `block.blockhash` instruction, namely that it only supports the 256 most recent blocks. This limitation affects Etherpot, among others.
+See: http://aakilfernandes.github.io/blockhashes-are-only-good-for-256-blocks/
 
 This contract stores the mapping from block number to blockhash in its local storage.
 There are two ways to add blocks.
