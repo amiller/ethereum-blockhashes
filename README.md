@@ -13,6 +13,10 @@ The second method, `add_old`, makes it possible to fill in gaps in history. It a
 
 Performance
 ============
+
+- `add_recent`: 20700 gas per block
+- `add_old`: 36700 gas per block
+
 Currently, an `sstore` instruction takes `20000` gas. Although an rlp-encoded block header is 476 bytes, apparently 210 of these are zero. The cost of transaction data is different for zero or nonzero bytes; given this distribution, the data should contribute `15000` to the total. The cost of computing `sha3` itself should contribute barely anything to the total, at 120 gas for fifteen sha3 words.
 
 According to benchmarks (see `test_blockhashes.py`), `add_recent` takes about `20700` gas and `add_old` takes about `36700`, not including the base gas cost of `21000` per transaction. This is consistent with the prediction above.
