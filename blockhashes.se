@@ -11,14 +11,15 @@ def add_recent(n):
 # Add a block at any height, as long as we have the child
 def add_old(header:str, n):
    with h = self.storage[n+1]:
-     with p = sha3(header:str):
-      with parent = ~calldataload(72+32):  # I don't know how calldataload works
-       if h - p == 0:
-         self.storage[n] = parent
-       else:
-         log(type=Error, text("sha3 hash does not match"))
+    with p = sha3(header:str):
+     with parent = ~calldataload(72+32):  # I don't know how calldataload works
+      if h - p == 0:
+        self.storage[n] = parent
+      else:
+        log(type=Error, text("sha3 hash does not match"))
 
 # Returns the blockhash, or 0
 def get_blockhash(n):
    h = block.prevhash(block.number - n)
    if h == 0: return self.storage[n]
+   else: return h
