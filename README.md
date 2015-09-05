@@ -22,7 +22,24 @@ Currently, an `sstore` instruction takes `20000` gas. Although an rlp-encoded bl
 
 According to benchmarks (see `test_blockhashes.py`), `add_recent` takes about `20700` gas and `add_old` takes about `36700`, not including the base gas cost of `21000` per transaction. This is consistent with the prediction above.
 
-New: A Live Instance is Deployed!
+At the time of writing, the default minimum gas price is [50Gwei](http://ether.fund/tool/converter#v=50&u=Gwei), and the price of Ether is about a dollar. Therefore this contract takes about 0.2 cents to add data.
+
+The gas cost can be minimized by preferring `add_recent` instead of `add_old`, or by batching multiple messages in a single transaction (e.g., by use of some separate multi-send gadget).
+
+Ongoing Service
+===============
+
+This contract requires someone to send it messages to add data. The good news is, *anyone* can send `add_recent` or `add_old` messages, this contract has no hard-coded addresses and does not discriminate among callers in anyway.
+
+One approach would be to call as soon as possible, every block. However, this is expensive. If we took this approach, it would cost $14 per day to maintain. If the price of gas goes down, this may be fine. Another option is to batch these calls, e.g. every 128 blocks. This would cut down on the base transaction costs, but still be too expensive for me to want to run right now (if you feel like spending that kind of Ether, go ahead!)
+
+Instead, the approach we take (see https://github.com/kobigurk/ethereum-blockhashes-server) is to call `add_recent` infrequently --- currently once every 256 blocks --- just to establish "checkpoints."
+
+This means you can reach any point in history (during which this service was running) by starting from the most recent checkpoint and traversing backwards with `add_old`.
+
+For example, this means if you fail to claim your Etherpot winnings in time (the problem that originally inspired this particular gadget!), then it should never cost more than 25 cents to obtain a particular blockhash (and, of course, much less if the gas price drops or the costs are amortized by more users).
+
+A Live Instance is Deployed!
 =================================
 Thanks to Kobi Gurk, an instance of this contract is now live:
 http://etherscan.io/address/0xb278e4cb20dfbf97e78f27001f6b15288302f4d7
@@ -30,5 +47,12 @@ http://etherscan.io/address/0xb278e4cb20dfbf97e78f27001f6b15288302f4d7
 Pointer to the exact code of the live contract:
 https://github.com/kobigurk/ethereum-blockhashes/blob/c4b5f338be68749156741cfb847af3e2ff65bab4/blockhashes.se
 
-Given the current Ether price and default gas price limits imposed by miners, it is expensive to invoke this contract (0.2 cents per block, or $14 per day). Therefore we are running a server that pings this contract once every 256 blocks.
 
+TODO:
+=====
+- Batching
+- An even better design might allow a benefactor to provide an endowment ahead of time, as an incentive for people to call it regularly.
+- SECURITY AUDIT NEEDED (see issue 1)
+  There is no guarantee this code works right.
+
+* Andrew Miller and Kobi Gurk, Sep 2015
