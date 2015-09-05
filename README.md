@@ -41,7 +41,7 @@ For example, this means if you fail to claim your Etherpot winnings in time (the
 
 A Live Instance is Deployed!
 =================================
-Thanks to Kobi Gurk, an instance of this contract is now live:
+Thanks to Kobi Gurkan, an instance of this contract is now live:
 http://etherscan.io/address/0xb278e4cb20dfbf97e78f27001f6b15288302f4d7
 
 Pointer to the exact code of the live contract:
@@ -55,4 +55,4 @@ TODO:
 - SECURITY AUDIT NEEDED (see issue 1)
   There is no guarantee this code works right.
 
-* Andrew Miller and Kobi Gurk, Sep 2015
+* Andrew Miller and Kobi Gurkan, Sep 2015
