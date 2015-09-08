@@ -15,7 +15,7 @@ def check_storage():
 
     # Load the current storage trie for this contract
     d = s.block.get_storage(contract.address).to_dict()
-    test = dict( (int(k.encode('hex'),16), v[1:].encode('hex')) for k,v in d.iteritems())
+    test = dict( (int(k.encode('hex'),16), v[1:].encode('hex').zfill(64)) for k,v in d.iteritems())
 
     #print 'ground', ground_truth
     #print 'test', test
