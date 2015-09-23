@@ -8,12 +8,12 @@ def add_recent(n):
    else: 
        self.storage[n] = h
 
-# Add a block at any height, as long as we have the child
+# Add a block at any height, using the header of the child
 def add_old(header:str, n):
    with h = self.storage[n+1]:
-    with p = sha3(header:str):
+    with c = sha3(header:str):
      with parent = ~calldataload(72+32):  # I don't know how calldataload works
-      if h - p == 0:
+      if h - c == 0:
         self.storage[n] = parent
       else:
         log(type=Error, text("sha3 hash does not match"))
