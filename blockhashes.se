@@ -8,13 +8,20 @@ def add_recent(n):
    else: 
        self.storage[n] = h
 
+def extract(header:str):
+   return(slice(header, chars=4, chars=36))
+
+# The length of an Ethereum header is always between 256 and 
+# 256^2 bytes, hence the RLP encoding always begins with 3 bytes 
+# to indicate the length, followed by 'a0' for the parent hash.
+
 # Add a block at any height, using the header of the child
 def add_old(header:str, n):
    with h = self.storage[n+1]:
     with c = sha3(header:str):
-     with parent = ~calldataload(72+32):  # I don't know how calldataload works
-      if h - c == 0:
-        self.storage[n] = parent
+     with parent = slice(header, chars=4, chars=36):
+      if h == c:
+        self.storage[n] = parent[0]
       else:
         log(type=Error, text("sha3 hash does not match"))
 
